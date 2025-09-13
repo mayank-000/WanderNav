@@ -1,9 +1,9 @@
 'use client';
 
-import * a z from 'zod';
+import {z} from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -43,6 +43,26 @@ type FormData = z.infer<typeof formSchema>;
 export default function TripPlannerPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const [destinations, setDestinations] = useState([]);
+
+  useEffect(() => {
+  async function fetchDestinations() {
+    const res = await fetch('/api/destinations');
+    if (res.ok) {
+      const data = await res.json();
+      console.log('Destinations:', data);
+      setDestinations(data);
+    }
+  }
+  fetchDestinations();
+}, []);
+
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -60,36 +80,38 @@ export default function TripPlannerPage() {
   async function onSubmit(values: FormData) {
     setIsLoading(true);
     setGeneratedPlan(null);
-    console.log(values);
 
-    // Mock AI processing delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Mock AI response
-    const mockPlan = `
-      <h2 class="font-headline text-2xl mb-4">Your 7-Day Adventure in ${values.destination}!</h2>
-      <p class="mb-4">Here is a personalized itinerary based on your budget of $${values.budget} and interest in ${values.interests.toLowerCase()}.</p>
-      
-      <div class="space-y-4">
-        <div>
-          <h3 class="font-headline text-lg font-semibold">Day 1: Arrival and Exploration</h3>
-          <p class="text-muted-foreground">Arrive in ${values.destination}, check into your budget-friendly hotel, and take a stroll through the city center to get your bearings.</p>
-        </div>
-        <div>
-          <h3 class="font-headline text-lg font-semibold">Day 2: Cultural Immersion</h3>
-          <p class="text-muted-foreground">Visit the main museum and a historical landmark. We've found some great free walking tours for you.</p>
-        </div>
-        <div>
-          <h3 class="font-headline text-lg font-semibold">Day 3: A Taste of Local Life</h3>
-          <p class="text-muted-foreground">Explore local markets and try some street food, keeping your budget in mind. An activity based on "${values.interests.toLowerCase().split(' ')[0]}" has been planned.</p>
-        </div>
-        <p>...and so on for 7 days!</p>
-      </div>
-    `;
+    try {
+      const res = await fetch('/api/trips/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          destinationName: values.destination,
+          userInterests: values.interests,
+          budget: values.budget,
+          dates: {
+            from: values.dates.from,
+            to: values.dates.to
+          }
+        })
+      });
 
-    setGeneratedPlan(mockPlan);
-    setIsLoading(false);
+      if (!res.ok) {
+        throw new Error('Failed to generate itinerary');
+      }
+
+      const data = await res.json();
+      setGeneratedPlan(data.itinerary || 'No itinerary returned.');
+    } catch (error) {
+      setGeneratedPlan('Error generating itinerary.');
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
@@ -105,6 +127,7 @@ export default function TripPlannerPage() {
           <h2 className="font-headline text-2xl mb-4">Plan Your Trip</h2>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              
               <FormField
                 control={form.control}
                 name="destination"
@@ -112,7 +135,7 @@ export default function TripPlannerPage() {
                   <FormItem>
                     <FormLabel>Destination</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Kyoto, Japan" {...field} />
+                      <Input placeholder="Enter your trip destination" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -136,7 +159,7 @@ export default function TripPlannerPage() {
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value.from ? (
+                            {isClient && field.value.from ? (
                               field.value.to ? (
                                 <>
                                   {format(field.value.from, 'LLL dd, y')} -{' '}
