@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,15 +8,29 @@ import { placeholderImages } from "@/lib/placeholder-images";
 import BlogCard from "@/components/blog/blog-card";
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import { useRequireAuth } from "@/hooks/use-auth";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
-    const user = {
-        name: "Alex Johnson",
-        email: "alex.j@example.com",
-        avatarId: "user-avatar-1"
-    }
-    const avatar = placeholderImages.find(p => p.id === user.avatarId);
+    const { user, loading } = useRequireAuth();
+    const router = useRouter();
+    const { toast } = useToast();
+
+    const handleLogout = async () => {
+        await signOut(auth);
+        toast({ title: "Logged Out", description: "You have been successfully logged out." });
+        router.push('/');
+    };
+    
     const savedPosts = getFeaturedPosts().slice(0,2);
+    const avatar = placeholderImages.find(p => p.id === "user-avatar-1");
+
+    if (loading || !user) {
+        return <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center"><p>Loading...</p></div>;
+    }
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-16">
@@ -22,17 +38,17 @@ export default function ProfilePage() {
                 <Card>
                     <CardHeader className="flex flex-col items-center text-center space-y-4">
                         <Avatar className="h-24 w-24">
-                           {avatar && <AvatarImage src={avatar.imageUrl} alt={user.name} />}
-                            <AvatarFallback className="text-3xl">{user.name.charAt(0)}</AvatarFallback>
+                           {avatar && <AvatarImage src={avatar.imageUrl} alt={user.displayName || "User"} />}
+                            <AvatarFallback className="text-3xl">{user.displayName?.charAt(0) || user.email?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <CardTitle className="font-headline text-3xl">{user.name}</CardTitle>
+                            <CardTitle className="font-headline text-3xl">{user.displayName || "Welcome"}</CardTitle>
                             <p className="text-muted-foreground">{user.email}</p>
                         </div>
                         <div className="flex gap-2">
                             <Button variant="outline">Edit Profile</Button>
-                            <Button variant="ghost" asChild>
-                                <Link href="/"><LogOut className="mr-2 h-4 w-4"/> Logout</Link>
+                            <Button variant="ghost" onClick={handleLogout}>
+                                <LogOut className="mr-2 h-4 w-4"/> Logout
                             </Button>
                         </div>
                     </CardHeader>

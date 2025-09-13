@@ -6,9 +6,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Plane, Search, User } from "lucide-react";
+import { Menu, Search, User } from "lucide-react";
 import Logo from "@/components/logo";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,7 +20,8 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const [isSheetOpen, setSheetOpen] = useState(false);
-  const isUserLoggedIn = false; // Mock state
+  const { user, loading } = useAuth();
+  const isUserLoggedIn = !loading && !!user;
 
   const NavLinks = ({ className }: { className?: string }) => (
     <nav className={cn("flex items-center gap-4", className)}>
