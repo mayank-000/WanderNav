@@ -1,3 +1,130 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A beautiful mountain landscape at sunset",
+      "imageUrl": "https://picsum.photos/seed/hero/1920/1080",
+      "imageHint": "mountain landscape"
+    },
+    {
+      "id": "alps-cover",
+      "description": "A stunning view of the Swiss Alps with a clear blue lake.",
+      "imageUrl": "https://picsum.photos/seed/alpscover/600/400",
+      "imageHint": "swiss alps"
+    },
+    {
+      "id": "alps-1",
+      "description": "A hiker looking out over a valley in the Alps.",
+      "imageUrl": "https://picsum.photos/seed/alps1/1200/800",
+      "imageHint": "hiker mountains"
+    },
+    {
+      "id": "alps-2",
+      "description": "A close-up of an alpine flower with mountains in the background.",
+      "imageUrl": "https://picsum.photos/seed/alps2/1200/800",
+      "imageHint": "alpine flower"
+    },
+    {
+      "id": "alps-3",
+      "description": "A traditional wooden chalet in a Swiss village.",
+      "imageUrl": "https://picsum.photos/seed/alps3/1200/800",
+      "imageHint": "swiss chalet"
+    },
+    {
+      "id": "paris-cover",
+      "description": "The Eiffel Tower viewed from a charming Parisian street.",
+      "imageUrl": "https://picsum.photos/seed/pariscover/600/400",
+      "imageHint": "paris street"
+    },
+    {
+      "id": "paris-1",
+      "description": "A person enjoying a croissant and coffee at a Parisian cafe.",
+      "imageUrl": "https://picsum.photos/seed/paris1/1200/800",
+      "imageHint": "parisian cafe"
+    },
+    {
+      "id": "paris-2",
+      "description": "Inside the Louvre museum, looking at art.",
+      "imageUrl": "https://picsum.photos/seed/paris2/1200/800",
+      "imageHint": "louvre museum"
+    },
+    {
+      "id": "paris-3",
+      "description": "A couple enjoying a picnic by the Seine river.",
+      "imageUrl": "https://picsum.photos/seed/paris3/1200/800",
+      "imageHint": "seine river"
+    },
+    {
+      "id": "tokyo-cover",
+      "description": "A bustling street in Tokyo at night with neon signs.",
+      "imageUrl": "https://picsum.photos/seed/tokyocover/600/400",
+      "imageHint": "tokyo night"
+    },
+    {
+      "id": "tokyo-1",
+      "description": "A chef preparing fresh sushi.",
+      "imageUrl": "https://picsum.photos/seed/tokyo1/1200/800",
+      "imageHint": "sushi chef"
+    },
+    {
+      "id": "tokyo-2",
+      "description": "A steaming bowl of authentic Japanese ramen.",
+      "imageUrl": "https://picsum.photos/seed/tokyo2/1200/800",
+      "imageHint": "ramen bowl"
+    },
+    {
+      "id": "tokyo-3",
+      "description": "Shibuya Crossing bustling with people.",
+      "imageUrl": "https://picsum.photos/seed/tokyo3/1200/800",
+      "imageHint": "shibuya crossing"
+    },
+    {
+      "id": "rome-cover",
+      "description": "The ancient Colosseum in Rome under a clear blue sky.",
+      "imageUrl": "https://picsum.photos/seed/romecover/600/400",
+      "imageHint": "rome colosseum"
+    },
+    {
+      "id": "rome-1",
+      "description": "The ruins of the Roman Forum.",
+      "imageUrl": "https://picsum.photos/seed/rome1/1200/800",
+      "imageHint": "roman forum"
+    },
+    {
+      "id": "rome-2",
+      "description": "The Trevi Fountain in Rome.",
+      "imageUrl": "https://picsum.photos/seed/rome2/1200/800",
+      "imageHint": "trevi fountain"
+    },
+    {
+      "id": "rome-3",
+      "description": "A street artist painting near the Pantheon.",
+      "imageUrl": "https://picsum.photos/seed/rome3/1200/800",
+      "imageHint": "rome street"
+    },
+    {
+      "id": "user-avatar-1",
+      "description": "Avatar for Alex Johnson",
+      "imageUrl": "https://picsum.photos/seed/user1/40/40",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "user-avatar-2",
+      "description": "Avatar for Maria Garcia",
+      "imageUrl": "https://picsum.photos/seed/user2/40/40",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "user-avatar-3",
+      "description": "Avatar for Kenji Tanaka",
+      "imageUrl": "https://picsum.photos/seed/user3/40/40",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "user-avatar-4",
+      "description": "Avatar for Sophia Rossi",
+      "imageUrl": "https://picsum.photos/seed/user4/40/40",
+      "imageHint": "person portrait"
+    }
+  ]
 }
