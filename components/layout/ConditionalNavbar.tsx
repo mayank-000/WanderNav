@@ -10,7 +10,8 @@ export default function Navbar() {
     const pathname = usePathname();
     const {isSignedIn, isLoaded } = useUser();
 
-    const hideNavbar = pathname?.startsWith('/sign-in') || pathname?.startsWith('/sign-up')
+    const noNavbarPages = ['/sign-in', '/sign-up', '/profile'];
+    const hideNavbar = noNavbarPages.some(route => pathname?.startsWith(route));
     if(hideNavbar) return null
 
     // Show loading state while checking authentication---
