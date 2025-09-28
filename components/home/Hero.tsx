@@ -105,9 +105,9 @@ export default function Hero() {
               whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-xl"
-              onClick={() => router.push("/ai-chatbot")}
+              onClick={() => router.push("/explore")}
             >
-              AI Chatbot
+              Search Destinations
             </motion.button>
           </motion.div>
 

@@ -1,10 +1,10 @@
-import Hero from '@/components/landing/Hero'
-import FeaturesSection from '@/components/landing/Features';
-import HowItWorks from '@/components/landing/HowItWorks';
+import Hero from "@/components/home/Hero";
+import FeaturesSection from "@/components/home/Features";
+import HowItWorks from "@/components/home/HowItWorks";
 
 export default function Home() {
   return (
-    <main className='min-h-screen'>
+    <main className="min-h-screen">
       <Hero />
       <FeaturesSection />
       <HowItWorks />
@@ -16,6 +16,7 @@ export default function Home() {
 }
 
 export const metadata = {
-  title: 'WanderNav - AI-Powered Trip Planning',
-  description: 'Plan your dream trip in minutes with AI. Get personalized itineraries, smart budget planning, and local recommendations.',
-}
+  title: "WanderNav - AI-Powered Trip Planning",
+  description:
+    "Plan your dream trip in minutes with AI. Get personalized itineraries, smart budget planning, and local recommendations.",
+};

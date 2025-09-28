@@ -1,3 +1,4 @@
+'use client'
 import { ProfileHeader } from "@/components/profile/profile-header"
 import { TravelStats } from "@/components/profile/travel-stats"
 import { RecentUploads } from "@/components/profile/recent-uploads"
