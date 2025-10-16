@@ -180,7 +180,7 @@ export function ModernNavbar() {
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      console.log("Navigate to Home");
+                      router.push("/home")
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                   >
@@ -189,7 +189,7 @@ export function ModernNavbar() {
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      console.log("Navigate to Trip Planner");
+                      router.push("/profile")
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                   >
@@ -198,7 +198,7 @@ export function ModernNavbar() {
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      console.log("Navigate to Profile");
+                      router.push("/trip-planner")
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                   >
