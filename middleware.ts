@@ -9,6 +9,7 @@ export const isPublicRoute = createRouteMatcher([
 
 const isPublicApiRoute = createRouteMatcher([
     "/api/explore",
+    '/api/webhooks/register(.*)',
 ])
 
 export default clerkMiddleware(async (auth, req) => {

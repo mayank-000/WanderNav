@@ -53,9 +53,16 @@ function SignUpPage() {
                 router.push("/dashboard");
             } else {
                 console.log("Sign-up Failed", signUpAttempt);
+                setError("Sign-up incomplete. Please try again.");
             }
         } catch (error: any) {
             console.error("Sign-up Error. Please try again", error);
+            const errorMessage = error?.errors?.[0]?.longMessage || 
+                                 error?.errors?.[0]?.message || 
+                                 "Sign-up failed. Please try again.";
+            
+            setError(errorMessage);
+
         } finally {
             setIsSubmitting(false);
         }
@@ -68,12 +75,15 @@ function SignUpPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={submit} className="space-y-4">
+                                             
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
                                 type="email"
                                 id="email"
                                 value={email}
+                                autoComplete="email" 
+                                placeholder="Enter your email"
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={isSubmitting}
                                 required
@@ -85,6 +95,8 @@ function SignUpPage() {
                                 type="password"
                                 id="password"
                                 value={password}
+                                placeholder="Create a password"
+                                autoComplete="new-password"
                                 onChange={(e) => setPassword(e.target.value)}
                                 disabled={isSubmitting}
                                 required
