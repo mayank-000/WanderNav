@@ -27,7 +27,6 @@ export function TokenedNavbar() {
     { name: "Profile", href:"/profile"},
     { name: "AI Trip Planner", href: "/trip-planner" },
     { name: "AI ChatBot", href: "/ai-chatbot" },
-    { name: "DashBoard", href: "/dashboard" },
   ];
 
   const handleNavClick = (href: string, e: React.MouseEvent<HTMLAnchorElement>) => {

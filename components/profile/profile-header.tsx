@@ -1,7 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MapPin, LogOut } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { MapPin, Edit2 } from "lucide-react"
 
-export function ProfileHeader() {
+interface ProfileHeaderProps {
+  onEditClick: () => void
+}
+
+export function ProfileHeader({ onEditClick }: ProfileHeaderProps) {
   return (
     <div className="relative">
       {/* Gradient Background */}
@@ -24,6 +29,12 @@ export function ProfileHeader() {
               <span>Digital Nomad • 47 Countries Explored</span>
             </div>
           </div>
+
+          {/* Edit Profile Button */}
+          <Button onClick={onEditClick} className="gap-2">
+            <Edit2 className="w-4 h-4" />
+            Edit Profile
+          </Button>
         </div>
       </div>
     </div>

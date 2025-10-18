@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import LogoutButton from "../auth/LogoutButton";
 
 const navigation = [
-  { name: "Dashboard", icon: Home, href: "/dashboard", current: false },
+  { name: "Home", icon: Home, href: "/", current: false },
   { name: "My Photos", icon: Camera, href: "#", current: false },
   { name: "My Videos", icon: Video, href: "#", current: false },
   { name: "AI Trip Planner", icon: Map, href: "/trip-planner", current: false },

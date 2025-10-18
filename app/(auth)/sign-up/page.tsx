@@ -50,7 +50,7 @@ function SignUpPage() {
                 await setActive({ session: signUpAttempt.createdSessionId });
                 // Small delay to allow webhook to process
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                router.push("/dashboard");
+                router.push("/profile");
             } else {
                 console.log("Sign-up Failed", signUpAttempt);
                 setError("Sign-up incomplete. Please try again.");
