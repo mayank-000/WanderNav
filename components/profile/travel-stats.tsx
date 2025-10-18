@@ -1,38 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Camera, Video, MapPin, Plane } from "lucide-react"
+import type { User } from "@/types/user"
 
-const stats = [
-  {
-    title: "Photos",
-    value: "2,847",
-    icon: Camera,
-    change: "+12%",
-    changeType: "positive" as const,
-  },
-  {
-    title: "Videos",
-    value: "156",
-    icon: Video,
-    change: "+8%",
-    changeType: "positive" as const,
-  },
-  {
-    title: "Destinations",
-    value: "47",
-    icon: MapPin,
-    change: "+3",
-    changeType: "positive" as const,
-  },
-  {
-    title: "Distance Traveled",
-    value: "284,592 km",
-    icon: Plane,
-    change: "+15,420 km",
-    changeType: "positive" as const,
-  },
-]
+interface StatsProps {
+  userData: User | null
+}
 
-export function TravelStats() {
+export function TravelStats({ userData }: StatsProps) {
+  const stats = [
+    {
+      title: "Photos",
+      value: userData?.numberOfPhotosUploaded || 0,
+      icon: Camera,
+      change: "+12%"
+    },
+    {
+      title: "Videos",
+      value: userData?.numberOfVideosUploaded || 0,
+      icon: Video,
+      change: "+8%"
+    },
+    {
+      title: "Destinations",
+      value: userData?.travelDestinations?.length || 0,
+      icon: MapPin,
+      change: "+3%"
+    },
+    {
+      title: "Distance Traveled",
+      value: userData?.distanceTraveled ? `${userData.distanceTraveled} km` : "0 km",
+      icon: Plane,
+      change: "+25%"
+    }
+  ]
+
   return (
     <div className="space-y-6">
       <div>

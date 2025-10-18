@@ -88,7 +88,9 @@ export async function POST(req: Request) {
                 bio: "",
                 numberOfVideosUploaded: 0,
                 numberOfPhotosUploaded: 0,
+                photos: [],
                 travelDestinations: [],
+                distanceTraveled: 0,
                 isActive: true,
                 lastLoginAt: new Date()
             });

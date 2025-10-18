@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,7 +16,6 @@ import {
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
 import { X, Upload, Save, RotateCcw } from "lucide-react"
-import { cn } from "@/lib/utils"
 import type { User } from "@/types/user"
 import { Sidebar } from "@/components/profile/sidebar"
 import { ProfileHeader } from "@/components/profile/profile-header"
@@ -53,16 +51,17 @@ export default function ProfilePage() {
       try {
         setIsLoading(true)
         
-        // TODO: API CALL - Fetch user data
-        // const response = await fetch('/api/user/profile')
-        // if (!response.ok) throw new Error('Failed to fetch user data')
-        // const data = await response.json()
-        // setUserData(data)
-        // setFormData(data)
-        // setOriginalData(data)
-        // setProfilePhotoPreview(data.profilePhoto)
-        // setCoverPhotoPreview(data.coverPhoto)
+        const response = await fetch('/api/profile/get');
+        if (!response.ok) throw new Error('Failed to fetch user data')
+        
+        const data = await response.json()
 
+        setUserData(data)
+        setFormData(data)
+        setOriginalData(data)
+        setProfilePhotoPreview(data.profilePhoto)
+        setCoverPhotoPreview(data.coverPhoto)
+        
       } catch (error) {
         console.error("Failed to fetch user data:", error)
         toast.error("Failed to load profile data. Please try again.")
@@ -183,23 +182,33 @@ export default function ProfilePage() {
       //   coverPhotoUrl = cloudinaryData.secure_url
       // }
 
-      // TODO: API CALL - Update user profile in MongoDB
-      // const response = await fetch('/api/user/profile', {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     ...formData,
-      //     profilePhoto: profilePhotoUrl,
-      //     coverPhoto: coverPhotoUrl
-      //   }),
-      // })
-      // if (!response.ok) throw new Error('Failed to update profile')
-      // const updatedUser = await response.json()
-      // setUserData(updatedUser)
+      const response = await fetch('/api/profile/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userDetails: {
+            username: formData.username,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            bio: formData.bio,
+            profilePhoto: "profilePhotoUrl",  // Cloudinary URL
+            coverPhoto: "coverPhotoUrl",      // Cloudinary URL
+            travelDestinations: formData.travelDestinations
+          }
+        }),
+      })
 
+      if(!response.ok) throw new Error('Failed to update profile')
+
+      const { user } = await response.json();
+
+      setUserData(user)
+      setFormData(user)
       setOriginalData(formData)
       setShowEditDialog(false)
+
       toast.success("Profile updated successfully!")
+      
     } catch (error) {
       console.error("Failed to save profile:", error)
       toast.error("Failed to save profile. Please try again.")
@@ -234,17 +243,19 @@ export default function ProfilePage() {
         {/* Main Content */}
         <div className="flex-1 lg:ml-64">
           {/* Profile Header */}
-          <ProfileHeader onEditClick={() => setShowEditDialog(true)} />
+          <ProfileHeader 
+            userData={userData}
+            onEditClick={() => setShowEditDialog(true)} />
 
           {/* Main Content Area */}
           <div className="p-6 space-y-8">
             {/* Travel Stats Dashboard */}
-            <TravelStats />
+            <TravelStats userData={userData} />
 
             {/* Recent Uploads and Travel Map */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-              <RecentUploads />
-              <TravelMap />
+              <RecentUploads userData={userData} />
+              <TravelMap userData={userData} />
             </div>
           </div>
         </div>

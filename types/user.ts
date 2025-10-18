@@ -10,7 +10,15 @@ export interface User {
   bio: string
   numberOfVideosUploaded: number
   numberOfPhotosUploaded: number
+  photos: {
+    id: string
+    src: string | null
+    alt?: string
+    location?: string
+    uploadedAt: string
+  }[]
   travelDestinations: string[]
+  distanceTraveled?: number
   isActive: boolean
   lastLoginAt: string
   createdAt: string

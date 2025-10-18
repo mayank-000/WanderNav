@@ -12,7 +12,14 @@ export interface IUser extends Document {
   bio?: string;
   numberOfVideosUploaded: number;
   numberOfPhotosUploaded: number;
-  travelDestinations: any[];
+  photos: {
+    id: string;
+    src: string | null;
+    alt?: string;
+    location?: string;
+  }[];
+  travelDestinations: string[];
+  distanceTraveled?: number;
   isActive: boolean;
   lastLoginAt: Date;
   createdAt: Date;
@@ -24,7 +31,7 @@ const userSchema = new Schema<IUser>(
     clerkId: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     email: {
       type: String,
@@ -65,7 +72,17 @@ const userSchema = new Schema<IUser>(
       default: 0,
       min: 0,
     },
-    travelDestinations: [Object],
+    photos: [{
+      id: String,
+      src: String,
+      alt: String,
+      location: String,
+    }],
+    travelDestinations: [String],
+    distanceTraveled: {
+      type: Number,
+      default: 0,
+    },
     isActive: {
       type: Boolean,
       default: true,
@@ -81,9 +98,6 @@ const userSchema = new Schema<IUser>(
 );
 
 // Add indexes ONLY here, not in the field definition
-userSchema.index({ clerkId: 1 });
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
 userSchema.index({ createdAt: -1 });
 
 const User: Model<IUser> = 
