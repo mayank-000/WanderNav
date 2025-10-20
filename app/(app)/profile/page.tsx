@@ -150,37 +150,71 @@ export default function ProfilePage() {
         return
       }
 
-      // TODO: API CALL - Upload images to Cloudinary first
-      // let profilePhotoUrl = formData.profilePhoto
-      // let coverPhotoUrl = formData.coverPhoto
+      let profilePhotoUrl = formData.profilePhoto;
       
-      // if (profilePhotoPreview && profilePhotoPreview.startsWith('data:')) {
-      //   const formDataObj = new FormData()
-      //   const blob = await fetch(profilePhotoPreview).then(r => r.blob())
-      //   formDataObj.append('file', blob)
-      //   formDataObj.append('upload_preset', 'YOUR_UPLOAD_PRESET')
-      //   
-      //   const cloudinaryRes = await fetch(
-      //     'https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload',
-      //     { method: 'POST', body: formDataObj }
-      //   )
-      //   const cloudinaryData = await cloudinaryRes.json()
-      //   profilePhotoUrl = cloudinaryData.secure_url
-      // }
+      // Upload profile photo if it's a new file
+      if (profilePhotoPreview && profilePhotoPreview.startsWith('data:')) {
 
-      // if (coverPhotoPreview && coverPhotoPreview.startsWith('data:')) {
-      //   const formDataObj = new FormData()
-      //   const blob = await fetch(coverPhotoPreview).then(r => r.blob())
-      //   formDataObj.append('file', blob)
-      //   formDataObj.append('upload_preset', 'YOUR_UPLOAD_PRESET')
-      //   
-      //   const cloudinaryRes = await fetch(
-      //     'https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload',
-      //     { method: 'POST', body: formDataObj }
-      //   )
-      //   const cloudinaryData = await cloudinaryRes.json()
-      //   coverPhotoUrl = cloudinaryData.secure_url
-      // }
+        try {
+          // Convert base64 to Blob
+          const res = await fetch(profilePhotoPreview);
+          const blob = await res.blob();
+
+          const formData = new FormData();
+          formData.append('file', blob, 'profile.jpg');
+          formData.append('type', 'profile');
+
+          const uploadResponse = await fetch("/api/profile/image-upload", {
+            method: "POST",
+            body: formData,
+          })
+
+          if(!uploadResponse.ok) {
+            throw new Error("Failed to upload profile photo");
+          }
+
+          const { url } = await uploadResponse.json();
+          profilePhotoUrl = url;
+
+        } catch (error) {
+          console.error("Failed to upload profile photo:", error);
+          toast.error("Failed to upload profile photo");
+          return;
+        }
+      }
+
+      // Upload cover photo if it's a new file
+      let coverPhotoUrl = formData.coverPhoto;
+      
+      if (coverPhotoPreview && coverPhotoPreview.startsWith('data:')) {
+
+        try {
+          // Convert base64 to Blob
+          const res = await fetch(coverPhotoPreview);
+          const blob = await res.blob();
+
+          const formData = new FormData();
+          formData.append('file', blob, 'cover.jpg');
+          formData.append('type', 'cover');
+
+          const uploadResponse = await fetch("/api/profile/image-upload", {
+            method: "POST",
+            body: formData,
+          })
+
+          if(!uploadResponse.ok) {
+            throw new Error("Failed to upload cover photo");
+          }
+
+          const { url } = await uploadResponse.json();
+          coverPhotoUrl = url;
+
+        } catch (error) {
+          console.error("Failed to upload cover photo:", error);
+          toast.error("Failed to upload cover photo");
+          return;
+        }
+      }
 
       const response = await fetch('/api/profile/update', {
         method: 'POST',
@@ -191,8 +225,8 @@ export default function ProfilePage() {
             firstName: formData.firstName,
             lastName: formData.lastName,
             bio: formData.bio,
-            profilePhoto: "profilePhotoUrl",  // Cloudinary URL
-            coverPhoto: "coverPhotoUrl",      // Cloudinary URL
+            profilePhoto: profilePhotoUrl,  
+            coverPhoto: coverPhotoUrl,      
             travelDestinations: formData.travelDestinations
           }
         }),
@@ -204,11 +238,13 @@ export default function ProfilePage() {
 
       setUserData(user)
       setFormData(user)
-      setOriginalData(formData)
+      setOriginalData(user)
+      setProfilePhotoPreview(user.profilePhoto)
+      setCoverPhotoPreview(user.coverPhoto)
       setShowEditDialog(false)
 
       toast.success("Profile updated successfully!")
-      
+
     } catch (error) {
       console.error("Failed to save profile:", error)
       toast.error("Failed to save profile. Please try again.")

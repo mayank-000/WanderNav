@@ -20,7 +20,15 @@ export function ProfileHeader({ userData, onEditClick }: ProfileHeaderProps) {
   return (
     <div className="relative">
       {/* Gradient Background */}
-      <div className="h-48 bg-gradient-primary" />
+      <div className="h-48 bg-gradient-primary" >
+        {userData?.coverPhoto && (
+          <img 
+            src={userData.coverPhoto} 
+            alt="Cover" 
+            className="w-full h-full object-cover" 
+          />
+        )}
+      </div>
 
       {/* Profile Content */}
       <div className="relative px-6 pb-6">
