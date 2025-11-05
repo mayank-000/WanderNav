@@ -45,13 +45,13 @@ export default function ProfilePage() {
   const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(null)
   const [userData, setUserData] = useState<User | null>(null)
   const [newDestination, setNewDestination] = useState("")
-
+  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         setIsLoading(true)
         
-        const response = await fetch('/api/profile/get');
+        const response = await fetch('/api/profile/get/user');
         if (!response.ok) throw new Error('Failed to fetch user data')
         
         const data = await response.json()

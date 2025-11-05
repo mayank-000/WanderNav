@@ -63,6 +63,17 @@ export default function TripPlannerPage() {
       if (response.data.success) {
         setTripPlan(response.data.tripplan)
         setHasResults(true)
+
+        // Save the trip plan to the database
+        try {
+          const saveResponse = await axios.post("/api/save-trip", {
+            title: `Trip to ${formData.destination}`,
+            tripPlans: response.data.tripplan,
+          })
+        } catch (error) {
+          console.error("Failed to save trip plan", error);
+        }
+
       } else {
         console.error("Failed to generate trip")
         setTripPlan(response.data.error)
